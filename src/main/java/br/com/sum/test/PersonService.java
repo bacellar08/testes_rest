@@ -1,6 +1,8 @@
 package br.com.sum.test;
 
+import br.com.sum.test.dto.v1.PersonDTO;
 import br.com.sum.test.exceptions.ResourceNotFoundException;
+import br.com.sum.test.mapper.MyMapper;
 import br.com.sum.test.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,33 +19,43 @@ public class PersonService {
     @Autowired
     PersonRepository repository;
 
-    public List<Person> findAll() {
+    public List<PersonDTO> findAll() {
 
         logger.info("Finding all people");
 
-        return repository.findAll();
+        return MyMapper.parseListObjects(repository.findAll(), PersonDTO.class);
     }
 
-    public Person findById(Long id) {
+    public PersonDTO findById(Long id) {
         logger.info("Finding person by id: " + id);
 
 
-        return repository.findById(id)
+        var entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Person with id: " + id + " was not found."));
+
+        return MyMapper.parseObject(entity, PersonDTO.class);
     }
 
-    public Person addPerson(Person person) {
+    public PersonDTO addPerson(PersonDTO person) {
         logger.info("Adding person: " + person);
-        return repository.save(person);
+
+        var entity = MyMapper.parseObject(person, Person.class);
+
+        return  MyMapper.parseObject(repository.save(entity), PersonDTO.class);
     }
 
-    public Person updatePerson(Person person) {
+    public PersonDTO updatePerson(PersonDTO person) {
         logger.info("Updating person: " + person);
 
-        repository.findById(person.getId()).
+        var entity = repository.findById(person.getId()).
                 orElseThrow(() -> new ResourceNotFoundException("Person with id: " + person.getId() + " was not found."));
 
-        return repository.save(person);
+        entity.setFirstName(person.getFirstName());
+        entity.setLastName(person.getLastName());
+        entity.setAddress(person.getAddress());
+        entity.setGender(person.getGender());
+
+        return MyMapper.parseObject(repository.save(entity), PersonDTO.class);
 
     }
 
