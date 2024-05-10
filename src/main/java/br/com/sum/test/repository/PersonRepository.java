@@ -1,6 +1,6 @@
 package br.com.sum.test.repository;
 
-import br.com.sum.test.Person;
+import br.com.sum.test.model.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

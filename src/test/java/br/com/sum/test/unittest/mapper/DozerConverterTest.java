@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import br.com.sum.test.Person;
-import br.com.sum.test.dto.v1.PersonDTO;
+import br.com.sum.test.model.Person;
+import br.com.sum.test.model.v1.PersonDTO;
 import br.com.sum.test.mapper.MyMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

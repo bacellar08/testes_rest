@@ -1,6 +1,7 @@
-package br.com.sum.test;
+package br.com.sum.test.service;
 
-import br.com.sum.test.dto.v1.PersonDTO;
+import br.com.sum.test.model.Person;
+import br.com.sum.test.model.v1.PersonDTO;
 import br.com.sum.test.exceptions.ResourceNotFoundException;
 import br.com.sum.test.mapper.MyMapper;
 import br.com.sum.test.repository.PersonRepository;

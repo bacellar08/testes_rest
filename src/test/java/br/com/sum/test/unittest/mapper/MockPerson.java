@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import br.com.sum.test.Person;
-import br.com.sum.test.dto.v1.PersonDTO;
+import br.com.sum.test.model.Person;
+import br.com.sum.test.model.v1.PersonDTO;
 
 public class MockPerson {
 

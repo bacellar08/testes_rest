@@ -1,5 +1,4 @@
-package br.com.sum.test;
-
+package br.com.sum.test.controller;
 
 import br.com.sum.test.exceptions.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,18 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SubController {
+public class SumController {
 
-    @RequestMapping("/sub/{numberOne}/{numberTwo}")
-    public Double sub(@PathVariable("numberOne") String numberOne,
-                      @PathVariable("numberTwo") String numberTwo) throws Exception {
-
+    @RequestMapping("/sum/{numberOne}/{numberTwo}")
+    public Double sum(@PathVariable("numberOne") String numberOne,
+                   @PathVariable("numberTwo") String numberTwo) throws Exception {
         if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
             throw new ResourceNotFoundException("Please set a numeric value.");
         }
 
-        return convertToDouble(numberOne) - convertToDouble(numberTwo);
-
+        return convertToDouble(numberOne) + convertToDouble(numberTwo);
     }
 
     private Double convertToDouble(String strNumber) {
@@ -26,7 +23,7 @@ public class SubController {
             return 0D;
         }
         String number = strNumber.replaceAll(",", ".");
-        return Double.parseDouble(number);
+            return Double.parseDouble(number);
     }
 
     private boolean isNumeric(String strNumber) {

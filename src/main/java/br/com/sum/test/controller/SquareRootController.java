@@ -1,4 +1,4 @@
-package br.com.sum.test;
+package br.com.sum.test.controller;
 
 import br.com.sum.test.exceptions.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -6,16 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DivController {
+public class SquareRootController {
 
-    @RequestMapping("/div/{numberOne}/{numberTwo}")
-    public Double div(@PathVariable("numberOne") String numberOne,
-                      @PathVariable("numberTwo") String numberTwo) throws Exception {
-        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+    @RequestMapping("/sqr/{number}")
+    public Double sqr(@PathVariable("number") String numberOne) throws Exception {
+        if (!isNumeric(numberOne)) {
             throw new ResourceNotFoundException("Please set a numeric value.");
         }
 
-        return convertToDouble(numberOne) / convertToDouble(numberTwo);
+        return Math.sqrt(convertToDouble(numberOne));
     }
 
     private Double convertToDouble(String strNumber) {

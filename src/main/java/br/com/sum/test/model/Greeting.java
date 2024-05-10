@@ -1,4 +1,4 @@
-package br.com.sum.test;
+package br.com.sum.test.model;
 
 import lombok.Getter;
 import lombok.Setter;

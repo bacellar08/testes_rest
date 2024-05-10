@@ -1,4 +1,4 @@
-package br.com.sum.test.dto.v1;
+package br.com.sum.test.model.v1;
 
 
 
