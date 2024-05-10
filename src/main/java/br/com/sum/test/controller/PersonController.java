@@ -1,6 +1,6 @@
 package br.com.sum.test.controller;
 
-import br.com.sum.test.model.v1.PersonDTO;
+import br.com.sum.test.model.dto.v1.PersonDTO;
 import br.com.sum.test.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,10 +30,10 @@ public class PersonController {
         return service.findAll();
     }
 
-    @PostMapping(
+    @PostMapping(value = "/create",
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
             consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-    public ResponseEntity<PersonDTO> create(@RequestBody PersonDTO person){
+    public ResponseEntity<PersonDTO> create(@RequestBody PersonDTO person) {
         PersonDTO createdPerson = service.addPerson(person);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPerson);
     }
