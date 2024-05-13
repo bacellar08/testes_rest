@@ -1,5 +1,6 @@
 package br.com.sum.test.mockito.service;
 
+import br.com.sum.test.exceptions.RequiredObjectIsNullException;
 import br.com.sum.test.model.Person;
 import br.com.sum.test.model.dto.v1.PersonDTO;
 import br.com.sum.test.repository.PersonRepository;
@@ -110,6 +111,18 @@ class PersonServiceTest {
     }
 
     @Test
+    void createNullPerson() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+            service.addPerson(null);
+        });
+
+        String expectedMessage = "Required object is null!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
     void updatePerson() {
 
         Person entity = input.mockEntity(1);
@@ -132,6 +145,17 @@ class PersonServiceTest {
         assertEquals("Last Name Test1", result.getLastName());
         assertEquals("Female", result.getGender());
 
+    }
+
+    @Test
+    void updateNullPerson() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+            service.updatePerson(null);
+        });
+
+        String expectedMessage = "Required object is null!";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test

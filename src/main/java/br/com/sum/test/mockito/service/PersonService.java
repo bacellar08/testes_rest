@@ -1,6 +1,7 @@
 package br.com.sum.test.mockito.service;
 
 import br.com.sum.test.controller.PersonController;
+import br.com.sum.test.exceptions.RequiredObjectIsNullException;
 import br.com.sum.test.mapper.MyMapper;
 import br.com.sum.test.model.Person;
 import br.com.sum.test.model.dto.v1.PersonDTO;
@@ -50,6 +51,9 @@ public class PersonService {
     }
 
     public PersonDTO addPerson(PersonDTO person) {
+
+        if (person == null) throw new RequiredObjectIsNullException();
+
         logger.info("Adding person: " + person);
 
         var entity = MyMapper.mapper.map(person, Person.class);
@@ -63,6 +67,9 @@ public class PersonService {
     }
 
     public PersonDTO updatePerson(PersonDTO person) {
+
+        if (person == null) throw new RequiredObjectIsNullException();
+
         logger.info("Updating person: " + person);
 
         var entity = repository.findById(person.getKey()).
