@@ -18,7 +18,7 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
     private static final long serialVersionUID = 1L;
 
 
-
+    
     public Long key;
     public String firstName, lastName, address, gender;
 
