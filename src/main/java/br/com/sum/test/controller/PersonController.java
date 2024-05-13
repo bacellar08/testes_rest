@@ -1,7 +1,7 @@
 package br.com.sum.test.controller;
 
 import br.com.sum.test.model.dto.v1.PersonDTO;
-import br.com.sum.test.service.PersonService;
+import br.com.sum.test.mockito.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

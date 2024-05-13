@@ -1,4 +1,4 @@
-package br.com.sum.test.service;
+package br.com.sum.test.mockito.service;
 
 import br.com.sum.test.controller.PersonController;
 import br.com.sum.test.mapper.MyMapper;
