@@ -1,11 +1,11 @@
 package br.com.sum.test.service;
 
 import br.com.sum.test.controller.PersonController;
+import br.com.sum.test.mapper.MyMapper;
 import br.com.sum.test.model.Person;
 import br.com.sum.test.model.dto.v1.PersonDTO;
 import br.com.sum.test.exceptions.ResourceNotFoundException;
 import br.com.sum.test.repository.PersonRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -24,22 +24,12 @@ public class PersonService {
     @Autowired
     PersonRepository repository;
 
-    private static ModelMapper mapper = new ModelMapper();
-
-
-    static {
-        mapper.createTypeMap(
-                        Person.class,
-                        PersonDTO.class)
-                .addMapping(Person::getId, PersonDTO::setKey);
-    }
-
     public List<PersonDTO> findAll() {
 
         logger.info("Finding all people");
 
         return repository.findAll().stream().map(person -> {
-            PersonDTO personDTO = mapper.map(person, PersonDTO.class);
+            PersonDTO personDTO = MyMapper.mapper.map(person, PersonDTO.class);
             personDTO.add(linkTo(methodOn(PersonController.class).findById(personDTO.getKey())).withSelfRel());
             return personDTO;
         }).collect(Collectors.toList());
@@ -52,7 +42,7 @@ public class PersonService {
         var entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Person with id: " + id + " was not found."));
 
-        var personDTO = mapper.map(entity, PersonDTO.class);
+        var personDTO = MyMapper.mapper.map(entity, PersonDTO.class);
 
         personDTO.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 
@@ -62,9 +52,9 @@ public class PersonService {
     public PersonDTO addPerson(PersonDTO person) {
         logger.info("Adding person: " + person);
 
-        var entity = mapper.map(person, Person.class);
+        var entity = MyMapper.mapper.map(person, Person.class);
 
-        var personDTO = mapper.map(repository.save(entity), PersonDTO.class);
+        var personDTO = MyMapper.mapper.map(repository.save(entity), PersonDTO.class);
         personDTO.add(linkTo(methodOn(PersonController.class).findById(personDTO.getKey())).withSelfRel());
 
         return personDTO;
@@ -83,7 +73,7 @@ public class PersonService {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        var personDTO = mapper.map(repository.save(entity), PersonDTO.class);
+        var personDTO = MyMapper.mapper.map(repository.save(entity), PersonDTO.class);
         personDTO.add(linkTo(methodOn(PersonController.class).findById(personDTO.getKey())).withSelfRel());
         return personDTO;
 
