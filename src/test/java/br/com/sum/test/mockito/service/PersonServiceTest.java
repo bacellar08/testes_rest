@@ -69,7 +69,6 @@ class PersonServiceTest {
         var result = service.findAll();
 
         assertNotNull(result);
-        System.out.println(result.toString());
         var count = 0;
 
         for (Person person : personList) {
@@ -80,6 +79,7 @@ class PersonServiceTest {
             assertEquals("Last Name Test" + count, person.getLastName());
             assertEquals("Address Test" + count, person.getAddress());
             assertEquals(gender, person.getGender());
+            assertTrue(result.toString().contains("links: [</api/person/v1/"+count+">;rel=\"self\"]"));
 
             count++;
         }
