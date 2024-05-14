@@ -1,4 +1,4 @@
-package br.com.sum.test.mockito.service;
+package br.com.sum.test.service;
 
 import br.com.sum.test.controller.PersonController;
 import br.com.sum.test.exceptions.RequiredObjectIsNullException;

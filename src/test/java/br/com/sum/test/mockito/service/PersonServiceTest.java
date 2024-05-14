@@ -4,6 +4,7 @@ import br.com.sum.test.exceptions.RequiredObjectIsNullException;
 import br.com.sum.test.model.Person;
 import br.com.sum.test.model.dto.v1.PersonDTO;
 import br.com.sum.test.repository.PersonRepository;
+import br.com.sum.test.service.PersonService;
 import br.com.sum.test.unittest.mapper.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

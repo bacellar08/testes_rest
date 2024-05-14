@@ -10,6 +10,6 @@ spring:
     show-sql: false
     open-in-view: true
 springdoc:
-  paths-to-match: /api/**/v1/**
+  paths-to-match: /api/**
   swagger-ui:
     use-root-path: true

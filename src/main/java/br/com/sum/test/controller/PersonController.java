@@ -1,7 +1,7 @@
 package br.com.sum.test.controller;
 
 import br.com.sum.test.model.dto.v1.PersonDTO;
-import br.com.sum.test.mockito.service.PersonService;
+import br.com.sum.test.service.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
