@@ -54,6 +54,7 @@ class PersonServiceTest {
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
+        System.out.println(result.toString());
         assertTrue(result.toString().contains("links: [</api/person/v1/1>;rel=\"self\"]"));
         assertEquals("Address Test1", result.getAddress());
         assertEquals("First Name Test1", result.getFirstName());

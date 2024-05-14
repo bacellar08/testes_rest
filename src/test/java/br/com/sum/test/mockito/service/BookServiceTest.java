@@ -1,6 +1,7 @@
 package br.com.sum.test.mockito.service;
 
 import br.com.sum.test.model.Book;
+import br.com.sum.test.model.Person;
 import br.com.sum.test.model.dto.v1.BookDTO;
 import br.com.sum.test.repository.BookRepository;
 import br.com.sum.test.service.BookService;
@@ -15,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,6 +51,7 @@ class BookServiceTest {
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
+        assertTrue(result.toString().contains("links: [</api/books/1>;rel=\"self\"]"));
         assertEquals("Title Test1", result.getTitle());
         assertEquals("Author Name Test1", result.getAuthor());
         assertEquals(1, result.getKey());
@@ -58,6 +61,23 @@ class BookServiceTest {
 
     @Test
     void getAllBooks() {
+        List<Book> entityList = input.mockEntityList();
+        when(repository.findAll()).thenReturn(entityList);
+        var result = service.getAllBooks();
+
+        assertNotNull(result);
+        var count = 0;
+
+        for (Book book : entityList) {
+            assertNotNull(book);
+            assertNotNull(book.getId());
+            assertEquals("Title Test" + count, book.getTitle());
+            assertEquals("Author Name Test" + count, book.getAuthor());
+            assertEquals(count, book.getPrice());
+            assertTrue(result.toString().contains("links: [</api/books/"+count+">;rel=\"self\"]"));
+
+            count++;
+        }
     }
 
     @Test
@@ -74,6 +94,7 @@ class BookServiceTest {
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
+        assertTrue(result.toString().contains("links: [</api/books/1>;rel=\"self\"]"));
         assertEquals("Title Test1", result.getTitle());
         assertEquals("Author Name Test1", result.getAuthor());
         assertEquals(1, result.getKey());
@@ -95,6 +116,7 @@ class BookServiceTest {
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
+        assertTrue(result.toString().contains("links: [</api/books/1>;rel=\"self\"]"));
         assertEquals("Title Test1", result.getTitle());
         assertEquals("Author Test1", result.getAuthor());
         assertEquals(1, result.getKey());
