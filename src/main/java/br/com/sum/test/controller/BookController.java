@@ -3,6 +3,11 @@ package br.com.sum.test.controller;
 import br.com.sum.test.model.Book;
 import br.com.sum.test.model.dto.v1.BookDTO;
 import br.com.sum.test.service.BookService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +25,17 @@ public class BookController {
     @Autowired
     BookService service;
 
+    @Operation(
+            summary = "Find book by ID",
+            description = "This endpoint allows you to find any registered book by its ID"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success finding book by the specified ID",
+                    content = @Content(schema = @Schema(implementation = Book.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Book with the specified ID was not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     @GetMapping(value = "/{id}",
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
     )
@@ -28,6 +44,16 @@ public class BookController {
        return ResponseEntity.ok(book);
     }
 
+    @Operation(
+            summary = "Find all books",
+            description = "This endpoint allows you to find every book registered in the database"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success finding all books",
+                    content = @Content(schema = @Schema(implementation = Book.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     @GetMapping(
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
     )
@@ -35,6 +61,16 @@ public class BookController {
         return service.getAllBooks();
     }
 
+    @Operation(
+            summary = "Register new book",
+            description = "This endpoint allows you to register a new book in the database"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success registering new book",
+                    content = @Content(schema = @Schema(implementation = Book.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     @PostMapping(
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
             consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
@@ -44,6 +80,17 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
     }
 
+    @Operation(
+            summary = "Update book info",
+            description = "This endpoint allows you to update already registered data of any book on the database"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success updating book",
+                    content = @Content(schema = @Schema(implementation = Book.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "404", description = "Book with the specified ID was not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     @PutMapping(
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
             consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
@@ -53,6 +100,17 @@ public class BookController {
         return ResponseEntity.ok(updatedBook);
     }
 
+    @Operation(
+            summary = "Delete book",
+            description = "This endpoint allows you to delete any book by it's ID"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success deleting book",
+                    content = @Content(schema = @Schema(implementation = Book.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Book with the specified ID was not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Integer id) {
         service.deleteBook(id);

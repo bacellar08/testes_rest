@@ -79,7 +79,7 @@ public class PersonController {
 
     @Operation(
             summary = "Update a existing person on the database",
-            description = "This endpoint allows you to updated already registered data of any person on the database"
+            description = "This endpoint allows you to update already registered data of any person on the database"
     )
     @ApiResponses(value= {
             @ApiResponse(responseCode = "200", description = "Success updating person",
