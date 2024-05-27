@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.sum</groupId>
-	<artifactId>test</artifactId>
+	<artifactId>api-rest-springboot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>test</name>
 	<description>Demo project for Spring Boot</description>
@@ -91,6 +91,18 @@
 			<artifactId>annotations</artifactId>
 			<version>RELEASE</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.10.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>5.4.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
