@@ -1,4 +1,4 @@
-package br.com.apirest.securityJwt;
+package br.com.apirest.security.jwt;
 
 import br.com.apirest.exceptions.InvalidJwtAuthenticationException;
 import br.com.apirest.model.dto.v1.security.TokenDTO;
