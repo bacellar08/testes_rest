@@ -15,16 +15,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    @Autowired
-    JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final JwtTokenProvider tokenProvider;
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository repository;
 
-    @Autowired
-    UserRepository repository;
+    public AuthService(JwtTokenProvider tokenProvider, AuthenticationManager authenticationManager, UserRepository repository) {
+        this.tokenProvider = tokenProvider;
+        this.authenticationManager = authenticationManager;
+        this.repository = repository;
+    }
 
-    public ResponseEntity<?> signin(AccountCredentialsDTO data) {
+    public ResponseEntity<TokenDTO> signin(AccountCredentialsDTO data) {
         try {
             var username = data.getUsername();
             var password = data.getPassword();
@@ -35,11 +37,11 @@ public class AuthService {
             var tokenResponse = new TokenDTO();
 
             if (user != null) {
-                tokenResponse = jwtTokenProvider.createAccessToken(username, user.getRoles());
+                tokenResponse = tokenProvider.createAccessToken(username, user.getRoles());
             } else {
                 throw new UsernameNotFoundException("Username not found");
             }
-            return ResponseEntity.ok();
+            return ResponseEntity.ok(tokenResponse);
         }
         catch (Exception e) {
            throw new BadCredentialsException("Invalid username or password");

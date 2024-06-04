@@ -28,8 +28,12 @@ import java.util.Map;
 @Configuration
 public class SecurityConfig{
 
-    @Autowired
-    JwtTokenProvider jwtTokenProvider;
+
+    private final JwtTokenProvider tokenProvider;
+
+    public SecurityConfig(JwtTokenProvider tokenProvider) {
+        this.tokenProvider = tokenProvider;
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -61,7 +65,7 @@ public class SecurityConfig{
                                 .requestMatchers("/users").denyAll()
                 )
                 .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
-                .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtTokenFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
