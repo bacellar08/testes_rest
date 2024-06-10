@@ -33,6 +33,7 @@ public class PersonController {
             @ApiResponse(responseCode = "200", description = "Success finding person by id",
             content = @Content(schema = @Schema(implementation = PersonDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
             @ApiResponse(responseCode = "404", description = "Failed to find person with the specified id.", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })

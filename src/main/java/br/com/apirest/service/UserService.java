@@ -32,6 +32,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("Username " + username + " not found");
         }
+        logger.info("Found user: " + user + " with password: " + user.getPassword());
         return user;
 
     }

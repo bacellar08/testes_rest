@@ -24,10 +24,10 @@ import java.util.List;
 public class JwtTokenProvider {
 
     @Value("${security.jwt.token.secret-key}")
-    private String secretKey;
+    private String secretKey = "secret";
 
     @Value("${security.jwt.token.expire-length:3600000}")
-    private long validityInMilliseconds;
+    private long validityInMilliseconds = 3600000; // 1hour
 
     private final UserDetailsService userDetailsService;
 
@@ -35,7 +35,7 @@ public class JwtTokenProvider {
         this.userDetailsService = userDetailsService;
     }
 
-    Algorithm algorithm;
+    Algorithm algorithm = null;
 
     @PostConstruct
     protected void init() {
@@ -50,6 +50,17 @@ public class JwtTokenProvider {
         var refreshToken = getRefreshToken(username, roles, now);
         return new TokenDTO(username, true, now, validity, accessToken, refreshToken);
     }
+
+//    public TokenDTO refreshToken(String refreshToken) {
+//        if (refreshToken.contains("Bearer ")) refreshToken =
+//                refreshToken.substring("Bearer ".length());
+//
+//        JWTVerifier verifier = JWT.require(algorithm).build();
+//        DecodedJWT decodedJWT = verifier.verify(refreshToken);
+//        String username = decodedJWT.getSubject();
+//        List<String> roles = decodedJWT.getClaim("roles").asList(String.class);
+//        return createAccessToken(username, roles);
+//    }
 
     private String getAccessToken(String username, List<String> roles, Date now, Date validity) {
         String issuerURL = ServletUriComponentsBuilder.
@@ -77,7 +88,7 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         DecodedJWT decodedJWT = decodedToken(token);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(decodedJWT.getSubject());
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(decodedJWT.getSubject());
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

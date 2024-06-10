@@ -4,7 +4,6 @@ import br.com.apirest.model.dto.v1.security.AccountCredentialsDTO;
 import br.com.apirest.model.dto.v1.security.TokenDTO;
 import br.com.apirest.repository.UserRepository;
 import br.com.apirest.security.jwt.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,9 +11,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 @Service
 public class AuthService {
 
+    Logger logger = Logger.getLogger(AuthService.class.getName());
 
     private final JwtTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
@@ -26,12 +28,17 @@ public class AuthService {
         this.repository = repository;
     }
 
-    public ResponseEntity<TokenDTO> signin(AccountCredentialsDTO data) {
-        try {
-            var username = data.getUsername();
-            var password = data.getPassword();
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+    @SuppressWarnings("rawtypes")
+    public ResponseEntity signin(AccountCredentialsDTO data) {
 
+        try {
+            logger.info("Variable username: " + data.getUsername());
+            var username = data.getUsername();
+            logger.info("Variable password " + data.getPassword());
+            var password = data.getPassword();
+            logger.info("running authentication manager");
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            logger.info("Entering repository");
             var user = repository.findByUsername(username);
 
             var tokenResponse = new TokenDTO();
@@ -42,9 +49,9 @@ public class AuthService {
                 throw new UsernameNotFoundException("Username not found");
             }
             return ResponseEntity.ok(tokenResponse);
-        }
-        catch (Exception e) {
-           throw new BadCredentialsException("Invalid username or password");
+        } catch (BadCredentialsException e) {
+            logger.info("Bad credentials: " + e.getMessage());
+            throw new BadCredentialsException("Invalid username or password");
         }
     }
 }

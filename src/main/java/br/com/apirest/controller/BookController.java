@@ -52,6 +52,7 @@ public class BookController {
             @ApiResponse(responseCode = "200", description = "Success finding all books",
                     content = @Content(schema = @Schema(implementation = Book.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Access denied", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
     @GetMapping(

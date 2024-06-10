@@ -14,18 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Authentication Endpoint")
 @RestController
-@RequestMapping("/auth/signin")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
     AuthService authService;
 
     @Operation(summary = "Authenticates a user and returns its token")
-    @PostMapping(value ="/signin")
+    @PostMapping("/signin")
     public ResponseEntity signin(@RequestBody AccountCredentialsDTO data) {
 
         if (isParamsNull(data)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid credentials");
-
         var token = authService.signin(data);
         if (token == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         return token;
